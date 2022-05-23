@@ -1,0 +1,25 @@
+version: "3.9"
+    
+services:    
+  angular:
+    build: angular-app
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./angular-app/src/:/usr/src/app/src/
+
+  express:
+    build: express-server
+    ports:
+      - "3000:3000"
+    links:
+      - database
+    volumes:
+      - ./express-server/config.js:/usr/src/app/config.js
+      - ./express-server/index.js:/usr/src/app/index.js
+      - ./express-server/routes.js:/usr/src/app/routes.js
+  
+  database:
+    image: mongo
+    ports:
+      - "27017:27017"
