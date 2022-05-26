@@ -1,0 +1,17 @@
+FROM node:16.15.0-bullseye
+
+VOLUME [ "src", "usr/src/app/" ]
+
+RUN mkdir -p /src/ && mkdir -p /usr/src/app/ && mkdir -p /build/
+
+#COPY ./new-app/app/* ./angular/app/
+
+WORKDIR /build/
+
+ADD ./new-app/additional/ /build/
+ 
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+#CMD [ "ls", "-lah", "/build/" ]
+ENTRYPOINT [ "/build/test.sh" ]

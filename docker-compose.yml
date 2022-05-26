@@ -1,25 +1,39 @@
 version: "3.9"
     
 services:    
+  new-app:
+    build: new-app
+    volumes:
+      - ./new-app/app/:/usr/src/app/
+    profiles: [ "new-app" ]
+  fresh:
+    build: 
+      context: .
+      dockerfile: Dockerfile-fresh
+    volumes:
+      - ./new-app/app/:/src/
+      - ./angular/app/:/usr/src/app/
+    profiles: [ "fresh" ]
   angular:
-    build: angular-app
+    build: angular
     ports:
       - "4200:4200"
     volumes:
-      - ./angular-app/src/:/usr/src/app/src/
+      - ./angular/app/:/usr/src/app/
+    profiles: [ "run" ]
 
-  express:
-    build: express-server
-    ports:
-      - "3000:3000"
-    links:
-      - database
-    volumes:
-      - ./express-server/config.js:/usr/src/app/config.js
-      - ./express-server/index.js:/usr/src/app/index.js
-      - ./express-server/routes.js:/usr/src/app/routes.js
+  # express:
+  #   build: express-server
+  #   ports:
+  #     - "3000:3000"
+  #   links:
+  #     - database
+  #   volumes:
+  #     - ./express-server/config.js:/usr/src/app/config.js
+  #     - ./express-server/index.js:/usr/src/app/index.js
+  #     - ./express-server/routes.js:/usr/src/app/routes.js
   
-  database:
-    image: mongo
-    ports:
-      - "27017:27017"
+  # database:
+  #   image: mongo
+  #   ports:
+  #     - "27017:27017"
